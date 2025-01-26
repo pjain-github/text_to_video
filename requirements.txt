@@ -2,3 +2,10 @@ httpx
 requests
 python-dotenv
 beautifulsoup4
+langchain
+langchain-google-genai
+langchain-community
+langchain-core
+tiktoken
+pytest
+openai

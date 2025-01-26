@@ -1,6 +1,7 @@
 import requests
 import json
 import httpx
+import logging
 
 
 class GoogleSearch:
@@ -61,10 +62,7 @@ class GoogleSearch:
             sites_query = " OR ".join([f"site:{site}" for site in sites])
             query = f"{query} ({sites_query})"
 
-        print(kwargs.keys())
-
         if 'num' in kwargs.keys():
-            print("nums")
             kwargs['num'] = min(kwargs['num'], 10)
 
         params = {

@@ -21,33 +21,33 @@ class WebScraper:
         - title (str): The title of the webpage.
         - text (str): The text content of the webpage.
         """
-
-        response = requests.get(url)
-
-        text = ''
-        if response.status_code == 200:
-            # Parse the HTML content of the webpage
-            soup = BeautifulSoup(response.content, 'html.parser')
-
-            # Getting title of the page
-            title = soup.title.string if soup.title else "No title found"
+        
+        try:
+            response = requests.get(url, timeout=15)
 
             text = ''
-
-            # Getting text from webpage
-            try:
+            if response.status_code == 200:
+                # Parse the HTML content of the webpage
+                soup = BeautifulSoup(response.content, 'html.parser')
+    
+                # Getting title of the page
+                title = soup.title.string if soup.title else "No title found"
+    
+                text = ''
+    
+                # Getting text from webpage            
                 text_content = [p.get_text(strip=True) for p in soup.find_all('p')]
                 for text_part in text_content:
                     text = text + text_part + '\n'
 
-            except Exception as e:
-                print("Failed to get text")
-                # Extract all the text from the webpage
-                text = text + soup.get_text()
+            else:
+                print(f"Failed to retrieve the webpage. Status code: {response.status_code}")
+                title = ''
 
-        else:
-            print(f"Failed to retrieve the webpage. Status code: {response.status_code}")
-            title = ''
+        except Exception as e:
+            print("Failed to get text")
+            # Extract all the text from the webpage
+            return None, None
 
         return title, text
 
