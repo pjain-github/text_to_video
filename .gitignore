@@ -19,6 +19,8 @@ ENV/
 env/
 env.bak/
 venv.bak/
+bin/
+lib/
 
 # Ignore Jupyter Notebook checkpoints
 .ipynb_checkpoints/
