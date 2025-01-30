@@ -87,3 +87,54 @@ class WebScraper:
             print(f"Failed to retrieve the webpage. Status code: {response.status_code}")
 
         return title, text
+    
+    @staticmethod
+    def extract_content_with_sequence(url):
+        try:
+            response = requests.get(url)
+            soup = BeautifulSoup(response.content, 'html.parser')
+
+            # List to store extracted content
+            content_list = []
+
+            # Iterate over all elements in the body
+            for element in soup.body.descendants:
+                if element.name == 'p':  # Paragraph text
+                    content = element.get_text(strip=True)
+                    if content:
+                        content_list.append({'type': 'text', 'content': content})
+
+                elif element.name == 'img':  # Images
+                    img_src = element.get('src')
+                    if img_src:
+                        full_url = requests.compat.urljoin(url, img_src)
+                        content_list.append({'type': 'image', 'content': full_url})
+
+                elif element.name == 'table':  # Tables
+                    table_html = str(element)
+                    content_list.append({'type': 'table', 'content': table_html})
+
+                elif element.name == 'a':  # Links
+                    link_href = element.get('href')
+                    link_text = element.get_text(strip=True)
+                    if link_href:
+                        full_url = requests.compat.urljoin(url, link_href)
+                        content_list.append({'type': 'link', 'content': {'url': full_url, 'text': link_text}})
+
+            text = ""
+
+            # Stringigy the extracted content
+            for item in content_list:
+                if item['type'] == 'text':
+                    text += f"Text: {item['content']}\n"
+                elif item['type'] == 'image':
+                     text += f"Image URL: {item['content']}\n"
+                elif item['type'] == 'table':
+                     text += f"Table HTML: {item['content']}\n"
+                elif item['type'] == 'link':
+                     text += f"Link: {item['content']['url']} (Text: {item['content']['text']})\n"
+            
+            return text
+        
+        except:
+            return None

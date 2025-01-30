@@ -1,5 +1,7 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.tools import Tool
+import logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
 class Gemini:
@@ -69,7 +71,8 @@ class Gemini:
         Returns:
             str: The full response content from the LLM.
         """
-        response = self.llm.invoke(messages).content
+        response = self.llm.invoke(messages)
+        logging.info("Response Genereted from LLM")
         return response
     
     async def acall_llm(self, messages, stream=False):
@@ -108,7 +111,7 @@ class Gemini:
         """
 
         structured_llm = self.llm.with_structured_output(structure)
-        return structured_llm.ainvoke(messages)
+        return structured_llm.invoke(messages)
     
     async def acall_llm_json(self, messages, structure):
         """
@@ -135,13 +138,6 @@ class Gemini:
             str: A detailed string describing the Gemini instance.
         """
         return f"Gemini(model={self.model}, api_key={'*' * len(self.api_key)})"
-    
-    def __del__(self):
-        """
-        Ensures that any open connections are closed when the instance is deleted.
-        """
-        if hasattr(self.llm, 'close'):
-            self.llm.close()
         
 
 # class Gemini:
