@@ -20,7 +20,7 @@ google_api_key = os.getenv('GOOGLE_SEARCH_API_KEY')
 google_cse_id = os.getenv('GOOGLE_SEARCH_CSE_ID')
 gemini_api_key = os.getenv('GEMINI_API_KEY')
 
-def blog_generateor(query: str, details:str=None, sites: list=[], num: int=5):
+def blog_generator(query: str, details:str=None, sites: list=[], num: int=5):
 
     # Gemini model 
     llm = Gemini(api_key=gemini_api_key)
@@ -69,4 +69,4 @@ def blog_generateor(query: str, details:str=None, sites: list=[], num: int=5):
     return answer
 
 if __name__ == "__main__":
-    print(blog_generateor("Shopify", "Shopify is an e-commerce platform that lets you create and manage your online store. It's designed to handle everything from small businesses selling handmade goods to large enterprises managing global sales. It tackles the headaches of setting up and running an online store, from payment processing to shipping logistics. The platform is incredibly versatile, catering to a wide range of businesses and industries."))
+    print(blog_generator("Shopify"))
