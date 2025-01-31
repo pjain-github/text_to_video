@@ -57,7 +57,9 @@ Write the blog in way that you are a friend and advisor with technical knowledge
 If you don't find any information or topic, you can skip it.
 
 This structure ensures a comprehensive, easy-to-digest review while effectively utilizing text and tables to present key information.
+
 In the text you will find image urls as well, if these urls can help with better readability, use it as well.
+Add images like <img src = url>
 We are generating review for: {software}
 """
 
